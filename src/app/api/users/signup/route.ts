@@ -1,11 +1,11 @@
-import { connect } from "@/dbConfig/dbConfig";
+import { connectDB } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/helpers/mailer";
 
 export async function POST(request: NextRequest) {
-  await connect();
+  await connectDB();
 
   try {
     const reqBody = await request.json();
@@ -13,6 +13,9 @@ export async function POST(request: NextRequest) {
 
     //check if user already exists
     const user = await User.findOne({ email });
+
+    console.log("user");
+    console.log(user);
 
     if (user) {
       return NextResponse.json(
