@@ -5,9 +5,8 @@ import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/helpers/mailer";
 
 export async function POST(request: NextRequest) {
-  await connectDB();
-
   try {
+    await connectDB();
     const reqBody = await request.json();
     const { username, email, password } = reqBody;
 
@@ -46,6 +45,7 @@ export async function POST(request: NextRequest) {
       savedUser,
     });
   } catch (error: any) {
+    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
